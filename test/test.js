@@ -1,4 +1,4 @@
-var crud = require('../app/login.js');
+var login = require('../app/login.js');
 var chai = require('chai');
 var should = chai.should();
 
@@ -10,7 +10,7 @@ describe('Authenticate user', function () {
     var password = "1234";
 
     it('authenticate user', function (done) {
-        crud.create(connectionString, dbName, collectionName, username, password, function (err, data) {
+        login.create(connectionString, dbName, collectionName, username, password, function (err, data) {
             if (err) {
                 console.error(err);
             }

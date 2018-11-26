@@ -1,6 +1,6 @@
 {
   "name": "login-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A microservice that can be used by other applications to perform all Login operations for MongoDB.",
   "main": "dist/engine.js",
   "homepage": "https://github.com/akshay2218/login-sdk#readme",
@@ -15,7 +15,10 @@
     "node": ">=8.9.0"
   },
   "keywords": [
-    "create"
+    "authenticate",
+    "changePassword",
+    "forgotPassword",
+    "updatePassword"
   ],
   "author": "Akshay Misal",
   "license": "MIT",
