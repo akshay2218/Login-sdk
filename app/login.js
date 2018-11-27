@@ -16,7 +16,7 @@ var TinyURL = require('tinyurl')
  * @param {connectionString, dbName, collectionName, username,password,} req 
  * @param {JSONObject} res  
  */
-var authenticateUser = function (connectionString, dbName, collectionName, username, password, callback) {
+var authenticateUser = function (connectionString, dbName, collectionName, username, password, secret, callback) {
     try {
         var db = mongo.db(connectionString + dbName, {
             native_parser: false
@@ -35,7 +35,7 @@ var authenticateUser = function (connectionString, dbName, collectionName, usern
                 user.hash = "";
                 var set = {
                     message: "Login Successful.",
-                    token: jwt.sign({ sub: user._id }, "akshaymamtavingiridowhatyouwant"),
+                    token: jwt.sign({ sub: user._id }, secret),
                     user: user
                 }
                 return callback(err, set);
@@ -65,7 +65,7 @@ var authenticateUser = function (connectionString, dbName, collectionName, usern
  * @param {*} callback 
  * @description This function will change the password using old password.
  */
-var changePW = function (connectionString, dbName, collectionName, username, oldPassword, newPassword, confirmPassword, callback) {
+var changePW = function (connectionString, dbName, collectionName, username, oldPassword, newPassword, confirmPassword, salt, callback) {
     try {
         var db = mongo.db(connectionString + dbName, {
             native_parser: false
@@ -88,7 +88,7 @@ var changePW = function (connectionString, dbName, collectionName, username, old
             }
 
             if (user && bcrypt.compareSync(oldPassword, user.hash)) {
-                var hash = bcrypt.hashSync(confirmPassword, 10);
+                var hash = bcrypt.hashSync(confirmPassword, salt);
                 var data = {
                     hash: hash
                 }
@@ -168,14 +168,14 @@ var forgotPW = function (connectionString, dbName, collectionName, email, url, c
  * @param {*} callback 
  * @description This function will update the password based on email confirmation.
  */
-var updatePW = function (connectionString, dbName, collectionName, username, confirmPassword, callback) {
+var updatePW = function (connectionString, dbName, collectionName, username, confirmPassword, salt, callback) {
     try {
         var db = mongo.db(connectionString + dbName, {
             native_parser: false
         });
         db.bind(collectionName);
 
-        var hash = bcrypt.hashSync(confirmPassword, 10);             // add hashed password to user object with salt
+        var hash = bcrypt.hashSync(confirmPassword, salt);             // add hashed password to user object with salt
         var set = {
             hash: hash
         };
