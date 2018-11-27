@@ -1,6 +1,6 @@
 {
   "name": "login-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A microservice that can be used by other applications to perform all Login operations for MongoDB.",
   "main": "dist/engine.js",
   "homepage": "https://github.com/akshay2218/login-sdk#readme",
